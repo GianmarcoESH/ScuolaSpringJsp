@@ -1,0 +1,17 @@
+Index: src/main/java/com/example/demo/controller/CorsoController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/example/demo/controller/CorsoController.java b/src/main/java/com/example/demo/controller/CorsoController.java
+--- a/src/main/java/com/example/demo/controller/CorsoController.java	
++++ b/src/main/java/com/example/demo/controller/CorsoController.java	(date 1746710389841)
+@@ -26,7 +26,7 @@
+         List<Corso> corsi = corsoService.findAll();
+         modelAndView.setViewName("list-corsi");
+         modelAndView.addObject("corsi", corsi);
+-
++        
+         return modelAndView;
+     }
+ 
