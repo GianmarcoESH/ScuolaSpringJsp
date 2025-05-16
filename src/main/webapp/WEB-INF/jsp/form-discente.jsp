@@ -40,12 +40,10 @@
                 <form:input type="number" cssClass="form-control" path="voto"/>
             </div>
             <div class="mb-3">
-                <form:select path="corsi" class="form-control">
-                    <c:forEach items="${corsoDTOList}" var="corsi">
-                        <form:option value="${corsi.id}" label="${corsi.nomeCorso}"/>
-                    </c:forEach>
+                <label for="corsi">Seleziona Corsi:</label>
+                <form:select path="corsiIds" multiple="multiple" cssClass="form-control">
+                    <form:options items="${corsoDTOList}" itemValue="id" itemLabel="nomeCorso" />
                 </form:select>
-
             </div>
             <div class="mb-3 d-flex justify-content-end">
                 <button type="submit" class="btn btn-success mt-4">

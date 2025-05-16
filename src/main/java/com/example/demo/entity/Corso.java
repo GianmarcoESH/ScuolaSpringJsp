@@ -3,6 +3,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -29,7 +30,7 @@ public class Corso {
     @JoinTable(name = "discente_corso",
             joinColumns = @JoinColumn(name = "id_discente"),
     inverseJoinColumns = @JoinColumn(name = "id_corso"))
-    private List<Discente> discenteList;
+    private List<Discente> discenteList = new ArrayList<>();
 
     public Corso(){}
     public Corso(String nomeCorso, int oreCorso, int annoAccademico, Docente docente){
@@ -77,5 +78,13 @@ public class Corso {
 
     public void setDocente(Docente docente) {
         this.docente = docente;
+    }
+
+    public List<Discente> getDiscenteList() {
+        return discenteList;
+    }
+
+    public void setDiscenteList(List<Discente> discenteList) {
+        this.discenteList = discenteList;
     }
 }

@@ -14,5 +14,5 @@ public class DiscenteDTO {
     private Date dataDiNascita;
     private String cittaDiResidenza;
     private int voto;
-    private List<CorsoDTO> corsi;
+    private List<Long> corsiIds;
 }

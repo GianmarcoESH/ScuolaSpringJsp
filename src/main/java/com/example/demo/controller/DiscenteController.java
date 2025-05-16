@@ -64,7 +64,7 @@ public class DiscenteController {
     @GetMapping("/nuovo")
     public ModelAndView showAdd(){
         ModelAndView modelAndView = new ModelAndView("form-discente");
-        Discente discente = new Discente();
+        DiscenteDTO discente = new DiscenteDTO();
         List<CorsoDTO> corsoDTOList = corsoService.findAll();
         modelAndView.addObject("discente", discente);
         modelAndView.addObject("corsoDTOList", corsoDTOList);

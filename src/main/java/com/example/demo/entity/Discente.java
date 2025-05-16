@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,7 @@ public class Discente {
     private int voto;
 
     @ManyToMany(mappedBy = "discenteList")
-    private List<Corso> corsi;
+    private List<Corso> corsi = new ArrayList<>();
 
     public Discente(){}
 
