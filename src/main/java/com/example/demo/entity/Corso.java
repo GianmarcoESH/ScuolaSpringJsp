@@ -3,6 +3,8 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "corso")
 public class Corso {
@@ -19,9 +21,15 @@ public class Corso {
     @Column(nullable = false)
     private int annoAccademico;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_docente", referencedColumnName = "id")
     private Docente docente;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "discente_corso",
+            joinColumns = @JoinColumn(name = "id_discente"),
+    inverseJoinColumns = @JoinColumn(name = "id_corso"))
+    private List<Discente> discenteList;
 
     public Corso(){}
     public Corso(String nomeCorso, int oreCorso, int annoAccademico, Docente docente){

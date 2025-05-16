@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
+import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DiscenteDTO;
+import com.example.demo.entity.Corso;
 import com.example.demo.entity.Discente;
 import com.example.demo.mapper.DiscenteConverter;
 import com.example.demo.repository.DiscenteRepository;
@@ -67,4 +69,17 @@ public class DiscenteService {
 
         return discenteDTOList;
     }
+
+
+    public List<CorsoDTO> findCorsiByDiscenteId(Long discenteId) {
+
+        Discente discente = discenteRepository.findById(discenteId)
+                .orElseThrow(()-> new RuntimeException("Discente non trovato"));
+
+
+        return discenteConverter.convertListToDTOList(discente.getCorsi());
+    }
+
+
+
 }

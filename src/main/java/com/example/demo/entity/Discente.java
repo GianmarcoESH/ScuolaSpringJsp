@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "discente")
@@ -26,7 +27,12 @@ public class Discente {
     @Column(nullable = false)
     private int voto;
 
+    @ManyToMany(mappedBy = "discenteList")
+    private List<Corso> corsi;
+
     public Discente(){}
+
+
     public Discente(String nome, String cognome, Date dataDiNascita, String cittaDiResidenza, int voto){
         this.nome = nome;
         this.cognome = cognome;
@@ -82,4 +88,13 @@ public class Discente {
     public void setVoto(int voto) {
         this.voto = voto;
     }
+
+    public List<Corso> getCorsi() {
+        return corsi;
+    }
+
+    public void setCorsi(List<Corso> corsi) {
+        this.corsi = corsi;
+    }
+
 }

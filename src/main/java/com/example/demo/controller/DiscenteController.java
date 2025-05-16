@@ -1,8 +1,13 @@
 package com.example.demo.controller;
 
+import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DiscenteDTO;
+import com.example.demo.DTO.DocenteDTO;
+import com.example.demo.entity.Corso;
 import com.example.demo.entity.Discente;
+import com.example.demo.service.CorsoService;
 import com.example.demo.service.DiscenteService;
+import com.example.demo.service.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -15,8 +20,15 @@ import java.util.List;
 @RequestMapping("/discenti")
 public class DiscenteController {
 
+    private final DiscenteService discenteService;
+    private final CorsoService corsoService;
+
     @Autowired
-    DiscenteService DiscenteService;
+    public DiscenteController(DiscenteService discenteService, CorsoService corsoService) {
+        this.discenteService = discenteService;
+        this.corsoService = corsoService;
+    }
+
 
     @GetMapping("/lista")
     public ModelAndView list(@RequestParam(name = "keyword",required = false) String keyword,
@@ -24,14 +36,14 @@ public class DiscenteController {
         ModelAndView modelAndView = new ModelAndView();
         List<DiscenteDTO> discenti;
         if(keyword != null){
-            discenti = DiscenteService.findByNameOrLastname(keyword);
+            discenti = discenteService.findByNameOrLastname(keyword);
 
         }else if(citta != null){
-            discenti = DiscenteService.findByCity(citta);
+            discenti = discenteService.findByCity(citta);
             modelAndView.addObject("filterType", "citta");
             modelAndView.addObject("citta", citta);
         } else {
-            discenti = DiscenteService.findAll();
+            discenti = discenteService.findAll();
         }
         modelAndView.setViewName("list-discente");
         modelAndView.addObject("discenti", discenti);
@@ -42,7 +54,7 @@ public class DiscenteController {
     @GetMapping("/promossi")
     public ModelAndView listaPromossi(){
         ModelAndView modelAndView = new ModelAndView();
-        List<DiscenteDTO> discenti = DiscenteService.findPassedStudent();
+        List<DiscenteDTO> discenti = discenteService.findPassedStudent();
         modelAndView.setViewName("list-discente");
         modelAndView.addObject("discenti", discenti);
         modelAndView.addObject("filterType", "promossi");
@@ -53,18 +65,21 @@ public class DiscenteController {
     public ModelAndView showAdd(){
         ModelAndView modelAndView = new ModelAndView("form-discente");
         Discente discente = new Discente();
+        List<CorsoDTO> corsoDTOList = corsoService.findAll();
         modelAndView.addObject("discente", discente);
+        modelAndView.addObject("corsoDTOList", corsoDTOList);
         return modelAndView;
     }
 
     @PostMapping("/add")
     public ModelAndView create(@ModelAttribute("discente") DiscenteDTO discenteDTO, BindingResult br) {
         ModelAndView modelAndView = new ModelAndView();
+        System.out.println(discenteDTO);
         if(br.hasErrors()){
             modelAndView.setViewName("form-discente");
             return modelAndView;
         }
-        DiscenteService.save(discenteDTO);
+        discenteService.save(discenteDTO);
         modelAndView.setViewName("redirect:/discenti/lista");
         return modelAndView;
     }
@@ -72,7 +87,8 @@ public class DiscenteController {
     @GetMapping("/{id}/edit")
     public ModelAndView showEdit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("form-discente");
-        modelAndView.addObject("discente", DiscenteService.get(id));
+        modelAndView.addObject("discente", discenteService.get(id));
+        modelAndView.addObject("corsoDTOList", corsoService.findAll());
         return modelAndView;
     }
 
@@ -84,7 +100,7 @@ public class DiscenteController {
             return modelAndView;
         }
         discenteDTO.setId(id);
-        DiscenteService.save(discenteDTO);
+        discenteService.save(discenteDTO);
         modelAndView.setViewName("redirect:/discenti");
         return modelAndView;
     }
@@ -92,8 +108,23 @@ public class DiscenteController {
     @GetMapping("/{id}/delete")
     public ModelAndView delete(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
-        DiscenteService.delete(id);
+        discenteService.delete(id);
         modelAndView.setViewName("redirect:/discenti/lista");
+        return modelAndView;
+    }
+
+
+    @GetMapping("/{id}/corsi")
+    public ModelAndView getCorsiPerDiscente(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("corsi-discente");
+
+        DiscenteDTO discente = discenteService.get(id);
+        List<CorsoDTO> corsi = discenteService.findCorsiByDiscenteId(discente.getId());
+
+        modelAndView.addObject("discente", discente);
+        modelAndView.addObject("corsi", corsi);
+
+
         return modelAndView;
     }
 }

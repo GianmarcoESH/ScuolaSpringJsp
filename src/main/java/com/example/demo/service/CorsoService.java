@@ -5,7 +5,6 @@ import com.example.demo.entity.Corso;
 import com.example.demo.mapper.CorsoConverter;
 import com.example.demo.repository.CorsoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
@@ -25,7 +24,7 @@ public class CorsoService {
     public CorsoService(CorsoRepository corsoRepository){
         this.corsoRepository = corsoRepository;
     }
-    public List<CorsoDTO> find(){
+    public List<CorsoDTO> findAll(){
         return corsoRepository.findAllByOrderByIdAsc()
                 .stream()
                 .map(corso -> corsoConverter.fromEntityToDto(corso))

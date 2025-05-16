@@ -19,7 +19,7 @@ public class DocenteDTO {
 
     private Date dataDiNascita;
 
-    private List<Corso> corsi;
+    private List<CorsoDTO> corsi;
 
 
 }

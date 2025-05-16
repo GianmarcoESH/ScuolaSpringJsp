@@ -27,7 +27,7 @@ public class CorsoController {
     @GetMapping("/lista")
     public ModelAndView list(){
         ModelAndView modelAndView = new ModelAndView();
-        List<CorsoDTO> corsi = corsoService.find();
+        List<CorsoDTO> corsi = corsoService.findAll();
         modelAndView.setViewName("list-corsi");
         modelAndView.addObject("corsi", corsi);
 

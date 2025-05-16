@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,15 +24,20 @@ public class Docente {
     @Column(nullable = false, unique = true)
     private Date dataDiNascita;
 
-    @OneToMany(mappedBy = "docente")
+    @OneToMany(mappedBy = "docente", cascade = CascadeType.DETACH)
     private List<Corso> corsi;
+
+
+
+
 
     /* costruttori */
     public Docente() {}
-    public Docente(String nome, String cognome, Date dataDiNascita) {
+    public Docente(String nome, String cognome, Date dataDiNascita,List<Corso> corsi) {
         this.nome = nome;
         this.cognome = cognome;
         this.dataDiNascita = dataDiNascita;
+        this.corsi = corsi;
     }
 
 
@@ -52,6 +59,14 @@ public class Docente {
 
     public String getCognome() {
         return cognome;
+    }
+
+    public List<Corso> getCorsi() {
+        return corsi;
+    }
+
+    public void setCorsi(List<Corso> corsi) {
+        this.corsi = corsi;
     }
 
     public void setCognome(String cognome) {

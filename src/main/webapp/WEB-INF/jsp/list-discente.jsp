@@ -70,6 +70,7 @@
                 <a class="btn btn-sm btn-danger"
                    href="<c:url value='/discenti/${a.id}/delete'/>"
                    onclick="return confirm('Sei sicuro?')">Elimina</a>
+                <a class="btn btn-sm btn-info" href="<c:url value='/discenti/${a.id}/corsi'/>">Vedi Corsi Assegnati</a>
             </td>
         </tr>
     </c:forEach>

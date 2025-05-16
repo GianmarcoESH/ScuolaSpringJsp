@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
 import com.example.demo.DTO.DocenteDTO;
+import com.example.demo.entity.Corso;
 import com.example.demo.entity.Docente;
 import com.example.demo.mapper.DocenteConverter;
 import com.example.demo.repository.DocenteRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +41,11 @@ public class DocenteService {
     }
 
     public void delete(Long id) {
+        Docente docDeleted = docenteRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        for (Corso corso : docDeleted.getCorsi()) {
+            corso.setDocente(null);
+        }
+
         docenteRepository.deleteById(id);
     }
 
