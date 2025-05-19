@@ -87,8 +87,10 @@ public class DiscenteController {
     @GetMapping("/{id}/edit")
     public ModelAndView showEdit(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("form-discente");
-        modelAndView.addObject("discente", discenteService.get(id));
-        modelAndView.addObject("corsoDTOList", corsoService.findAll());
+        DiscenteDTO discenteDTO = discenteService.get(id);
+        List<CorsoDTO> corsoDTOList = corsoService.findAll();
+        modelAndView.addObject("discente", discenteDTO);
+        modelAndView.addObject("corsoDTOList", corsoDTOList);
         return modelAndView;
     }
 
@@ -98,9 +100,11 @@ public class DiscenteController {
         if(br.hasErrors()){
             modelAndView.setViewName("form-discente");
             return modelAndView;
-        }
+        }/*
         discenteDTO.setId(id);
         discenteService.save(discenteDTO);
+        */
+        discenteService.update(id, discenteDTO);
         modelAndView.setViewName("redirect:/discenti");
         return modelAndView;
     }

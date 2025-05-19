@@ -22,6 +22,7 @@ public class DiscenteConverter {
     private final CorsoRepository corsoRepository;
     @Autowired
     public DiscenteConverter(CorsoRepository corsoRepository) {
+
         this.corsoRepository = corsoRepository;
     }
 
@@ -34,7 +35,7 @@ public class DiscenteConverter {
         discente.setCittaDiResidenza(discenteDTO.getCittaDiResidenza());
         discente.setDataDiNascita(discenteDTO.getDataDiNascita());
         discente.setVoto(discenteDTO.getVoto());
-        //mappare corsi
+
         List<Corso> corsoList = new ArrayList<>();
         for(Long ids : discenteDTO.getCorsiIds()){
             Corso corso = corsoRepository.findById(ids).orElseThrow(()
@@ -58,6 +59,27 @@ public class DiscenteConverter {
         discenteDTO.setCittaDiResidenza(discente.getCittaDiResidenza());
         discenteDTO.setDataDiNascita(discente.getDataDiNascita());
         discenteDTO.setVoto(discente.getVoto());
+
+        return discenteDTO;
+    }
+
+
+    public DiscenteDTO fromEntityToDtoWithCoursesIds(Discente discente){
+
+        DiscenteDTO discenteDTO = new DiscenteDTO();
+        discenteDTO.setId(discente.getId());
+        discenteDTO.setNome(discente.getNome());
+        discenteDTO.setCognome(discente.getCognome());
+        discenteDTO.setCittaDiResidenza(discente.getCittaDiResidenza());
+        discenteDTO.setDataDiNascita(discente.getDataDiNascita());
+        discenteDTO.setVoto(discente.getVoto());
+
+        List<Long> ids = discente.getCorsi()
+                .stream()
+                .map(Corso::getId)
+                .toList();
+
+        discenteDTO.setCorsiIds(ids);
 
         return discenteDTO;
     }

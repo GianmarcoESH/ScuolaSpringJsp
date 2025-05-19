@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -51,19 +52,13 @@ public class DiscenteService {
             corsoList.add(corso);
         }
 
-        // Imposta i corsi nel discente
         discente.setCorsi(corsoList);
 
-        // Salva il discente (salverà anche la relazione nella tabella di join discente_corso)
-        Discente savedDiscente = discenteRepository.save(discente);
+        discenteRepository.save(discente);
 
-        // Se necessario, salva i corsi modificati (per aggiornare la relazione)
-        for (Corso corso : corsoList) {
-            corsoRepository.save(corso);  // Salva i corsi aggiornati
-        }
-
-        return savedDiscente;
+        return discente;
     }
+
 
     public void delete(Long id) {discenteRepository.deleteById(id);}
 
