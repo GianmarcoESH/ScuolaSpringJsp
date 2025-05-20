@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.DTO.CorsoDTO;
+import com.example.demo.DTO.DiscenteDTO;
 import com.example.demo.DTO.DocenteDTO;
 import com.example.demo.entity.Corso;
 import com.example.demo.service.CorsoService;
+import com.example.demo.service.DiscenteService;
 import com.example.demo.service.DocenteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,7 +23,8 @@ public class CorsoController {
 
     @Autowired
     private DocenteService docenteService;
-
+    @Autowired
+    private DiscenteService discenteService;
 
 
     @GetMapping("/lista")
@@ -58,10 +61,14 @@ public class CorsoController {
 
     @GetMapping("/{id}/edit")
     public ModelAndView showEdit(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("form-corso");
+        ModelAndView modelAndView = new ModelAndView("update-corso");
+        CorsoDTO corsoDTO = corsoService.get(id);
         List<DocenteDTO> docenteList= docenteService.findAll();
+        List<DiscenteDTO> discenteList= discenteService.findAll();
+
+        modelAndView.addObject("corsoDTO", corsoDTO);
         modelAndView.addObject("docenti",docenteList);
-        modelAndView.addObject("corso", corsoService.get(id));
+        modelAndView.addObject("discenti", discenteList);
         return modelAndView;
     }
 
@@ -69,12 +76,18 @@ public class CorsoController {
     public ModelAndView update(@PathVariable Long id, @ModelAttribute("corso") CorsoDTO corsoDTO, BindingResult br){
         ModelAndView modelAndView = new ModelAndView();
         if(br.hasErrors()){
-            modelAndView.setViewName("form-corso");
+            List<DocenteDTO> docenteList = docenteService.findAll();
+            List<DiscenteDTO> discenteList = discenteService.findAll();
+
+            modelAndView.addObject("docenti", docenteList);
+            modelAndView.addObject("discenti", discenteList);
+            modelAndView.setViewName("update-corsi");
             return modelAndView;
         }
         corsoDTO.setId(id);
-        corsoService.save(corsoDTO);
-        modelAndView.setViewName("redirect:/corsi");
+        corsoService.update(id, corsoDTO);
+
+        modelAndView.setViewName("redirect:/corsi/lista");
         return modelAndView;
 
     }

@@ -3,6 +3,8 @@ package com.example.demo.DTO;
 
 import lombok.Data;
 
+import java.util.List;
+
 
 @Data
 public class CorsoDTO {
@@ -12,4 +14,5 @@ public class CorsoDTO {
     private int oreCorso;
     private int annoAccademico;
     private DocenteDTO docente;
+    private List<Long> discenteIds;
 }

@@ -49,5 +49,9 @@ public class DocenteService {
         docenteRepository.deleteById(id);
     }
 
+    public Docente getDocente(Long id) {
+            return docenteRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Docente non trovato"));
+    }
+
 
 }

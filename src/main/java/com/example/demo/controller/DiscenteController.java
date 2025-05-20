@@ -86,22 +86,32 @@ public class DiscenteController {
 
     @GetMapping("/{id}/edit")
     public ModelAndView showEdit(@PathVariable Long id) {
-        ModelAndView modelAndView = new ModelAndView("form-discente");
-        modelAndView.addObject("discente", discenteService.get(id));
-        modelAndView.addObject("corsoDTOList", corsoService.findAll());
+        ModelAndView modelAndView = new ModelAndView("update-discente");
+        DiscenteDTO discenteDTO = discenteService.get(id);
+        List<CorsoDTO> corsiAssociati = discenteService.findCorsiByDiscenteId(id);
+        List<CorsoDTO> corsiNonAssociati = discenteService.getCorsiNonAssociati(id);
+        modelAndView.addObject("discente", discenteDTO);
+        modelAndView.addObject("corsiAssociati", corsiAssociati);
+        modelAndView.addObject("corsiNonAssociati", corsiNonAssociati);
         return modelAndView;
     }
 
     @PostMapping("/{id}")
-    public ModelAndView update(@PathVariable Long id, @ModelAttribute("discente") DiscenteDTO discenteDTO, BindingResult br) {
+    public ModelAndView update(@PathVariable Long id, @ModelAttribute("discente") DiscenteDTO discenteDTO, BindingResult br,
+                               @RequestParam(required = false) List<Long> corsiIdsDaAggiungere,
+                               @RequestParam(required = false) List<Long> corsiIdsDaRimuovere ) {
         ModelAndView modelAndView = new ModelAndView();
         if(br.hasErrors()){
             modelAndView.setViewName("form-discente");
             return modelAndView;
         }
+        if (corsiIdsDaAggiungere == null) corsiIdsDaAggiungere = List.of();
+        if (corsiIdsDaRimuovere == null) corsiIdsDaRimuovere = List.of();
+        /*
         discenteDTO.setId(id);
-        discenteService.save(discenteDTO);
-        modelAndView.setViewName("redirect:/discenti");
+        discenteService.save(discenteDTO);*/
+        discenteService.update(id,discenteDTO,corsiIdsDaAggiungere,corsiIdsDaRimuovere);
+        modelAndView.setViewName("redirect:/discenti/lista");
         return modelAndView;
     }
 

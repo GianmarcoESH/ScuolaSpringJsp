@@ -2,10 +2,8 @@ package com.example.demo.mapper;
 
 import com.example.demo.DTO.CorsoDTO;
 import com.example.demo.DTO.DiscenteDTO;
-import com.example.demo.DTO.DocenteDTO;
 import com.example.demo.entity.Corso;
 import com.example.demo.entity.Discente;
-import com.example.demo.entity.Docente;
 import com.example.demo.repository.CorsoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 public class DiscenteConverter {
