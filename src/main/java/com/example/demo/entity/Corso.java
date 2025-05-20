@@ -29,8 +29,8 @@ public class Corso {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "discente_corso",
-            joinColumns = @JoinColumn(name = "id_corso"),
-            inverseJoinColumns = @JoinColumn(name = "id_discente")
+            joinColumns = @JoinColumn(name = "id_corso"),  // ID del corso
+            inverseJoinColumns = @JoinColumn(name = "id_discente")  // ID del discente
     )
     private List<Discente> discenteList = new ArrayList<>();
 

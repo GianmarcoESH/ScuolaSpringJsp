@@ -42,7 +42,7 @@
             <div class="mb-3">
                 <label for="corsi">Seleziona Corsi:</label>
                 <form:select path="corsiIds" multiple="multiple" cssClass="form-control">
-                       <form:options items="${corsoDTOList}" itemValue="id" itemLabel="nomeCorso" />
+                    <form:options items="${corsoDTOList}" itemValue="id" itemLabel="nomeCorso" />
                 </form:select>
             </div>
             <div class="mb-3 d-flex justify-content-end">
